@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Game : MonoBehaviour {
+
+
+
+	public double fallSpeed = 1;
+	public int level = 1;
+	
+	public float levelGoal = 5f;
 	public static int gridWidth = 10;
 	public static int gridHeight = 20;
 	public int linesCleared = 0;
@@ -17,24 +24,52 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (levelGoal <= 0) {
+			FindObjectOfType<Game>().level += 1;
+			FindObjectOfType<Game>().fallSpeed = 1 * Mathf.Pow(.85f, FindObjectOfType<Game>().level);
+			//FindObjectOfType<Game>().fallSpeed = 0.2;
+			FindObjectOfType<Game>().levelGoal+= 5*level;
+			Debug.Log (FindObjectOfType<Game>().fallSpeed);
+		}
 	}
+
+	public bool CheckIsAboveGrid (Tetrimino tetrimino) {
+		for (int x = 0; x < gridWidth; ++x) {
+			foreach (Transform mino in tetrimino.transform) {
+				Vector2 pos = Round (mino.position);
+				if (pos.y > gridHeight - 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+//	public void IncreaseSpeed() {
+//		if (linesCleared > level2 ) {
+//			level += 1;
+//			FindObjectOfType<Tetrimino>().fallSpeed = 1 * Mathf.Pow(0.85f, level);
+//			//FindObjectOfType<Tetrimino>().fallSpeed = 0.2;
+//			level2 += 5;
+//			Debug.Log (FindObjectOfType<Tetrimino>().fallSpeed);
+//		}
+//	}
 
 	public void AddScore() {
 		if (linesCleared == (tempLines + 4)) { 
-			Score = (Score + 1200);
+			Score = (Score + 1200*level);
 			tempLines = linesCleared;
 		}
 		if (linesCleared == (tempLines + 3)) {
-			Score = (Score + 300);
+			Score = (Score + 300*level);
 			tempLines = linesCleared;
 		}
 		if (linesCleared == (tempLines + 2)) {
-			Score = (Score + 100);
+			Score = (Score + 100*level);
 			tempLines = linesCleared;
 		}
 		if (linesCleared == (tempLines + 1)) {
-			Score = (Score + 40);
+			Score = (Score + 40*level);
 			tempLines = linesCleared;
 		}
 			
@@ -49,6 +84,7 @@ public class Game : MonoBehaviour {
 			}
 		}
 			linesCleared++;
+			levelGoal--;
 			Debug.Log (linesCleared);
 			return true;
 	}
@@ -179,6 +215,10 @@ public void UpdateGrid (Tetrimino tetrimino) {
 	
 	}
 		return randomTetriminoName;
+	}
+
+	public void GameOver () {
+		Application.LoadLevel ("Game Over");
 	}
 
 }

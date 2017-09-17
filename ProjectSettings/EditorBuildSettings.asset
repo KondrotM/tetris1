@@ -4,4 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Game Over.unity
+    guid: cc3af489090d78f41a1026a001ae69d2
+  - enabled: 1
+    path: Assets/Tetris.unity
+    guid: c08cce94c012e2e4abf2f00b4ba3f329

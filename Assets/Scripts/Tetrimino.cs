@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Tetrimino : MonoBehaviour {
 
-	float fall = 0;
-	public float fallSpeed = 1;
-	public int linesCleared;
 
+	public float fall = 0;
 	// Use this for initialization
 	void Start () {
 		
@@ -16,7 +14,13 @@ public class Tetrimino : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-	
+//		float value2 = 9f;
+//		double value1 = Mathf.Pow (value2, 2);
+//		Debug.Log (value1);
+
+
+		//Debug.Log (linesCleared);
+
 		if (Input.GetKeyDown(KeyCode.RightArrow)){
 			
 			transform.position += new Vector3(1,0,0);
@@ -46,7 +50,7 @@ public class Tetrimino : MonoBehaviour {
 				transform.Rotate (0, 0, -90);
 			}
 
-		} else if (Input.GetKey(KeyCode.DownArrow) || Time.time - fall >= fallSpeed){
+		} else if (Input.GetKey(KeyCode.DownArrow) || Time.time - fall >= FindObjectOfType<Game>().fallSpeed){
 					
 			transform.position += new Vector3(0,-1,0);
 
@@ -55,9 +59,17 @@ public class Tetrimino : MonoBehaviour {
 		//		Debug.Log (transform.position);
 			} else { transform.position += new Vector3 (0, 1, 0);
 				FindObjectOfType<Game> ().DeleteRow ();
+				if (FindObjectOfType<Game> ().CheckIsAboveGrid (this)) {
+					FindObjectOfType<Game> ().GameOver ();
+				}
 				enabled = false;
+				//FindObjectOfType<Game> ().IncreaseSpeed ();
+
+			
 				FindObjectOfType<Game> ().AddScore ();
 				FindObjectOfType<Game> ().SpawnNextTetrimino ();
+
+
 		//		Debug.Log (transform.position);
 					}
 			fall = Time.time;
