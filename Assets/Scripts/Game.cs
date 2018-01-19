@@ -5,10 +5,9 @@ using UnityEngine;
 public class Game : MonoBehaviour {
 
 
-
+	public bool tetLoop = false;
 	public double fallSpeed = 1;
 	public int level = 1;
-	
 	public float levelGoal = 5f;
 	public static int gridWidth = 10;
 	public static int gridHeight = 20;
@@ -16,12 +15,78 @@ public class Game : MonoBehaviour {
 	public int tempLines = 0;
 	public int Score = 0;
 	public static Transform[,] grid = new Transform[gridWidth, gridHeight];
+
+	private GameObject previewTetrimino;
+	private GameObject nextTetrimino;
+
+	private bool gameStarted = false;
+
+	private Vector2 previewTetriminoPosition = new Vector2 (-6.5f, 15);
+
 	//	public static Transform[,] grid = new Transform[gridWidth, gridHeight];
 	// Use this for initialization
 	void Start () {
 		SpawnNextTetrimino ();
+		SpawnHold ();
 	}
-	
+
+	public void SpawnHold () {
+			GameObject nextTetrimino = (GameObject)Instantiate (Resources.Load (GetRandomTetriminoHold (), typeof(GameObject)), new Vector2 (15.0f, 15.0f), Quaternion.identity);
+		}
+
+
+	public string GetRandomTetriminoHold () {
+		int randomTetrimino = Random.Range (1, 8);
+		string randomTetriminoName = "Prefabs/Tetrimino_TH";
+		string nextMino = "base";
+		switch (randomTetrimino) {
+		case 1:
+			randomTetriminoName = "Prefabs/Tetrimino_TH";
+			nextMino = "Prefabs/Tetrimino_T";
+			Debug.Log (nextMino);
+			break;
+		case 2:
+			randomTetriminoName = "Prefabs/Tetrimino_IH";
+			nextMino = "Prefabs/Tetrimino_I";
+			Debug.Log (nextMino);
+			break;
+		case 3:
+			randomTetriminoName = "Prefabs/Tetrimino_OH";
+			nextMino = "Prefabs/Tetrimino_O";
+			Debug.Log (nextMino);
+			break;
+		case 4:
+			randomTetriminoName = "Prefabs/Tetrimino_JH";
+			nextMino = "Prefabs/Tetrimino_J";
+			Debug.Log (nextMino);
+			break;
+		case 5:
+			randomTetriminoName = "Prefabs/Tetrimino_LH";
+			nextMino = "Prefabs/Tetrimino_L";
+			Debug.Log (nextMino);
+			break;
+		case 6:
+			randomTetriminoName = "Prefabs/Tetrimino_SH";
+			nextMino = "Prefabs/Tetrimino_S";
+			break;
+		case 7:
+			randomTetriminoName = "Prefabs/Tetrimino_ZH";
+			nextMino = "Prefabs/Tetrimino_Z";
+			break;
+
+		}
+		//asset
+		return randomTetriminoName;
+	}
+
+	public string GetTetriminoFromHold () {
+		string minoName = GetRandomTetriminoHold ();
+		minoName = minoName.Remove (minoName.Length - 1);
+		Debug.Log (minoName);
+		return minoName;
+	}
+
+
 	// Update is called once per frame
 	void Update () {
 		if (levelGoal <= 0) {
@@ -175,8 +240,27 @@ public void UpdateGrid (Tetrimino tetrimino) {
 	}
 
 	public void SpawnNextTetrimino () {
-		GameObject nextTetrimino = (GameObject)Instantiate (Resources.Load (GetRandomTetrimino (), typeof(GameObject)), new Vector2 (5.0f, 20.0f), Quaternion.identity);
+		if (!gameStarted) {
+			gameStarted = true;
+			nextTetrimino = (GameObject)Instantiate (Resources.Load (GetTetriminoFromHold(), typeof(GameObject)), new Vector2 (5.0f, 20.0f), Quaternion.identity);
+			previewTetrimino = (GameObject)Instantiate (Resources.Load (GetTetriminoFromHold(), typeof(GameObject)), previewTetriminoPosition, Quaternion.identity);
+			previewTetrimino.GetComponent<Tetrimino>().enabled = false;
+
+		} else {
+			previewTetrimino.transform.localPosition = new Vector2 (5.0f, 20.0f);
+			nextTetrimino = previewTetrimino;
+			nextTetrimino.GetComponent<Tetrimino> ().enabled = true;
+			previewTetrimino = (GameObject)Instantiate (Resources.Load (GetTetriminoFromHold(), typeof(GameObject)), previewTetriminoPosition, Quaternion.identity);
+			previewTetrimino.GetComponent<Tetrimino>().enabled = false;
+
+		}
 	}
+
+//	public void SpawnHold () {
+//		GameObject nextTetrimino = (GameObject)Instantiate (Resources.Load (GetRandomTetrimino (), typeof(GameObject)), new Vector2 (15.0f, 15.0f), Quaternion.identity);
+		//exp = GetComponent<Tetrimino>();
+		//Destroy (exp);
+//	}
 
 	public bool CheckIsInsideGrid (Vector2 pos) {
 		return ((int)pos.x >= 0 && (int)pos.x < gridWidth && (int)pos.y >=0);
@@ -187,7 +271,7 @@ public void UpdateGrid (Tetrimino tetrimino) {
 		return new Vector2 (Mathf.Round(pos.x), Mathf.Round(pos.y));
 			}
 
-	string GetRandomTetrimino () {
+	public string GetRandomTetrimino () {
 		int randomTetrimino = Random.Range (1, 8);
 		string randomTetriminoName = "Prefabs/Tetrimino_T";
 		switch (randomTetrimino) {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tetrimino : MonoBehaviour {
 
-
+	public bool SwapTwice = false;
 	public float fall = 0;
 	// Use this for initialization
 	void Start () {
@@ -21,35 +21,39 @@ public class Tetrimino : MonoBehaviour {
 
 		//Debug.Log (linesCleared);
 
-		if (Input.GetKeyDown(KeyCode.RightArrow)){
+		if (Input.GetKeyDown (KeyCode.RightArrow)) {
 			
-			transform.position += new Vector3(1,0,0);
+			transform.position += new Vector3 (1, 0, 0);
 
 			if (CheckIsValidPosition ()) {
 //				FindObjectOfType<Game> ().UpdateGrid (this);
-				FindObjectOfType<Game>().UpdateGrid(this);  
-			//	Debug.Log (transform.position);
+				FindObjectOfType<Game> ().UpdateGrid (this);  
+				//	Debug.Log (transform.position);
 			} else {
 				transform.position += new Vector3 (-1, 0, 0);
 			}
-		} else if (Input.GetKeyDown(KeyCode.LeftArrow)){
+		} else if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 				
-			transform.position += new Vector3(-1,0,0);
+			transform.position += new Vector3 (-1, 0, 0);
 
 			if (CheckIsValidPosition ()) {
 //				FindObjectOfType<Game> ().UpdateGrid (this);
-				FindObjectOfType<Game>().UpdateGrid(this);  
-			} else { transform.position += new Vector3 (1, 0, 0);
-				}
-		} else if (Input.GetKeyDown(KeyCode.UpArrow)){
+				FindObjectOfType<Game> ().UpdateGrid (this);  
+			} else {
+				transform.position += new Vector3 (1, 0, 0);
+			}
+		} else if (Input.GetKeyDown (KeyCode.UpArrow)) {
 					
 			transform.Rotate (0, 0, 90);
 			if (CheckIsValidPosition ()) { 
-			//	Debug.Log (transform.position);
+				//	Debug.Log (transform.position);
 			} else { 
 				transform.Rotate (0, 0, -90);
 			}
+		} else if (Input.GetKeyDown (KeyCode.C)) {
 
+			SwapTwice = true;
+//			FindObjectOfType<Game> ().SpawnHold ();
 		} else if (Input.GetKey(KeyCode.DownArrow) || Time.time - fall >= FindObjectOfType<Game>().fallSpeed){
 					
 			transform.position += new Vector3(0,-1,0);
@@ -59,6 +63,7 @@ public class Tetrimino : MonoBehaviour {
 		//		Debug.Log (transform.position);
 			} else { transform.position += new Vector3 (0, 1, 0);
 				FindObjectOfType<Game> ().DeleteRow ();
+				SwapTwice = false;
 				if (FindObjectOfType<Game> ().CheckIsAboveGrid (this)) {
 					FindObjectOfType<Game> ().GameOver ();
 				}
@@ -68,7 +73,8 @@ public class Tetrimino : MonoBehaviour {
 			
 				FindObjectOfType<Game> ().AddScore ();
 				FindObjectOfType<Game> ().SpawnNextTetrimino ();
-
+				FindObjectOfType<Game> ().tetLoop = true;
+				FindObjectOfType<Game> ().SpawnHold ();
 
 		//		Debug.Log (transform.position);
 					}
