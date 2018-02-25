@@ -303,6 +303,7 @@ public void UpdateGrid (Tetrimino tetrimino) {
 
 	public void GameOver () {
 		Application.LoadLevel ("Game Over");
+		Highscores.AddNewHighscore("Guest", 9);
 	}
 
 }

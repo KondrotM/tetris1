@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour {
 	public int vol = 50;
+	public string usrstore;
+	public InputField usrname;
+	public Text confirmusr;
 	//public Text volT = int.Parse(vol.text);
 	public Button buttonOptions;
 
@@ -23,7 +26,11 @@ public class GameOverManager : MonoBehaviour {
 		Debug.Log (vol);
 	}
 
-	public 
+	public void getusrname () {
+		confirmusr.text = usrname.text;
+		usrstore = usrname.text;
+		Debug.Log (usrstore);
+	}
 
 	void Start () {
 		Button btn = buttonOptions.GetComponent<Button>();

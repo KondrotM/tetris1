@@ -52,9 +52,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Clicky.cs" />
+     <Compile Include="Assets\Scripts\DisplayHighscores.cs" />
      <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\GameOverManager.cs" />
      <Compile Include="Assets\Scripts\Hold.cs" />
+     <Compile Include="Assets\Scripts\Leaderboards.cs" />
      <Compile Include="Assets\Scripts\Score.cs" />
      <Compile Include="Assets\Scripts\Tetrimino.cs" />
  <Reference Include="UnityEngine.UI">
