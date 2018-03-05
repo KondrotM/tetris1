@@ -13,6 +13,7 @@ public class GameOverManager : MonoBehaviour {
 	public Button buttonOptions;
 
 	public void PlayAgain () {
+		Highscores.AddNewHighscore("Guest", 11);
 		Application.LoadLevel ("Tetris");
 	}
 
@@ -24,6 +25,10 @@ public class GameOverManager : MonoBehaviour {
 	public void plusVol () {
 		vol = vol + 5;
 		Debug.Log (vol);
+	}
+
+	public void submit () {
+		Highscores.AddNewHighscore (usrstore, FindObjectOfType<Game> ().Score);
 	}
 
 	public void getusrname () {
