@@ -3,18 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GameOverManager : MonoBehaviour {
 	public int vol = 50;
-	public string usrstore;
+	public Text usertext;
+	public Text[] personalScore;
+	static public string usrstore;
 	public InputField usrname;
 	public Text confirmusr;
 	//public Text volT = int.Parse(vol.text);
 	public Button buttonOptions;
 
+	void Awake() {
+//		DontDestroyOnLoad(this);
+	}
+
+	public void setUsername () {
+		usertext.text = usrstore;
+	}
+		
+
+	public void displayEndScores () {
+		personalScore [0].text = Game.Score.ToString();
+		personalScore [1].text = Game.level.ToString ();
+		personalScore [2].text = Game.linesCleared.ToString();
+		personalScore [3].text = GameOverManager.usrstore;
+
+	}
+
 	public void PlayAgain () {
-		Highscores.AddNewHighscore("Guest", 11);
+//		Highscores.AddNewHighscore("Guest", 11);
 		Application.LoadLevel ("Tetris");
+		Game.level = 1;
+		Game.Score = 0;
+		Game.linesCleared = 0;
 	}
 
 	public void minusVol () {
@@ -28,7 +51,15 @@ public class GameOverManager : MonoBehaviour {
 	}
 
 	public void submit () {
-		Highscores.AddNewHighscore (usrstore, FindObjectOfType<Game> ().Score);
+		Debug.Log (usrstore);
+		if (usrstore == "") {
+			usrstore = "Guest";
+		}
+		if (usrstore.Contains ("*")) {
+			usrstore = "Guest";
+		}
+		Highscores.AddNewHighscore (usrstore, Game.Score, Game.level, Game.linesCleared);
+//		Highscores.AddNewHighscore (usrstore, FindObjectOfType<Game> ().Score);
 	}
 
 	public void getusrname () {
@@ -44,6 +75,11 @@ public class GameOverManager : MonoBehaviour {
 	
 	void TaskOnclick() {
 		Debug.Log ("You have clicked the button!");
+	}
+
+	public void loadMenu() {
+		SceneManager.LoadScene ("Start_Screen");
+//		Application.Loadlevel ("Start_Screen");
 	}
 
 	void Update () {

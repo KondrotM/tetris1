@@ -74,7 +74,7 @@ public class Tetrimino : MonoBehaviour {
 				FindObjectOfType<Game> ().AddScore ();
 				FindObjectOfType<Game> ().SpawnNextTetrimino ();
 				FindObjectOfType<Game> ().tetLoop = true;
-				FindObjectOfType<Game> ().SpawnHold ();
+//				FindObjectOfType<Game> ().SpawnHold ();
 
 		//		Debug.Log (transform.position);
 					}

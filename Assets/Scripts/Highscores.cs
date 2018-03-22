@@ -31,13 +31,13 @@ public class Highscores : MonoBehaviour {
 	//	}
 
 	//static because we want to call it easier from other scripts
-	public static void AddNewHighscore(string username, int score) {
-		instance.StartCoroutine (instance.UploadNewHighscore (username, score));
+	public static void AddNewHighscore(string username, int score, int level, int lines) {
+		instance.StartCoroutine (instance.UploadNewHighscore (username, score, level, lines));
 	}
 	//IEnumerator is some fancy way to declare. I don't understand it and google isn't playing ball.
-	IEnumerator UploadNewHighscore(string username, int score) {
+	IEnumerator UploadNewHighscore(string username, int score, int level, int lines) {
 		//creates the web url for adding your highscore into the table
-		WWW web = new WWW (webURL + privateCode + "/add/" + WWW.EscapeURL (username) + "/" + score);
+		WWW web = new WWW (webURL + privateCode + "/add/" + WWW.EscapeURL (username) + "/" + score + "/" + level + "/" + lines);
 		//waits for a return rather than immediately continuing with the code
 		yield return web;
 
@@ -81,9 +81,11 @@ public class Highscores : MonoBehaviour {
 			string username = entryInfo [0];
 			//makes the score into an integer before setting it as a seperate variable
 			int score = int.Parse (entryInfo [1]);
+			int level = int.Parse (entryInfo [2]);
+			int lines = int.Parse (entryInfo [3]);
 			//updates the highscoresList array with current username and score, then prints it
-			highscoresList [i] = new Highscore (username, score);
-			print (highscoresList [i].username + ": " + highscoresList [i].score);
+			highscoresList [i] = new Highscore (username, score, level, lines);
+			print (highscoresList [i].username + ": " + highscoresList [i].score + ":" + highscoresList [i].level + ":" + highscoresList [i].lines);
 
 		}
 	}
@@ -93,10 +95,14 @@ public class Highscores : MonoBehaviour {
 public struct Highscore {
 	public string username;
 	public int score;
+	public int level;
+	public int lines;
 
 	//creates a structure for what a highscore entry should look like
-	public Highscore(string _username, int _score) {
+	public Highscore(string _username, int _score, int _level, int _lines) {
 		username = _username;
 		score = _score;
+		level = _level;
+		lines = _lines;
 	}
 }

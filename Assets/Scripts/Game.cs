@@ -7,13 +7,13 @@ public class Game : MonoBehaviour {
 
 	public bool tetLoop = false;
 	public double fallSpeed = 1;
-	public int level = 1;
+	static public int level = 1;
 	public float levelGoal = 5f;
 	public static int gridWidth = 10;
 	public static int gridHeight = 20;
-	public int linesCleared = 0;
+	static public int linesCleared = 0;
 	public int tempLines = 0;
-	public int Score = 0;
+	static public int Score = 0;
 	public static Transform[,] grid = new Transform[gridWidth, gridHeight];
 
 	private GameObject previewTetrimino;
@@ -27,12 +27,12 @@ public class Game : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		SpawnNextTetrimino ();
-		SpawnHold ();
+//		SpawnHold ();
 	}
 
-	public void SpawnHold () {
-			GameObject nextTetrimino = (GameObject)Instantiate (Resources.Load (GetRandomTetriminoHold (), typeof(GameObject)), new Vector2 (15.0f, 15.0f), Quaternion.identity);
-		}
+//	public void SpawnHold () {
+//			GameObject nextTetrimino = (GameObject)Instantiate (Resources.Load (GetRandomTetriminoHold (), typeof(GameObject)), new Vector2 (15.0f, 15.0f), Quaternion.identity);
+//		}
 
 
 	public string GetRandomTetriminoHold () {
@@ -90,8 +90,9 @@ public class Game : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (levelGoal <= 0) {
-			FindObjectOfType<Game>().level += 1;
-			FindObjectOfType<Game>().fallSpeed = 1 * Mathf.Pow(.85f, FindObjectOfType<Game>().level);
+			Game.level += 1;		
+//			FindObjectOfType<Game>().level += 1;
+			FindObjectOfType<Game>().fallSpeed = 1 * Mathf.Pow(.85f, Game.level);
 			//FindObjectOfType<Game>().fallSpeed = 0.2;
 			FindObjectOfType<Game>().levelGoal+= 5*level;
 			Debug.Log (FindObjectOfType<Game>().fallSpeed);

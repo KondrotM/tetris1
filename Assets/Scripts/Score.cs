@@ -10,6 +10,10 @@ public class Score : MonoBehaviour {
 
 	public Text levelText;
 
+	public Text linesText;
+
+	public Text usrText;
+
 	public Text goalText;
 
 	// Use this for initialization
@@ -19,9 +23,13 @@ public class Score : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		scoreText.text = "Score: " + FindObjectOfType<Game>().Score;
+		scoreText.text = "Score: " + Game.Score;
 
-		levelText.text = "Level: " + FindObjectOfType<Game>().level;
+		levelText.text = "Level: " + Game.level;
+
+		linesText.text = "Lines: " + Game.linesCleared;
+
+		usrText.text = GameOverManager.usrstore;
 
 		goalText.text = "Goal: " + FindObjectOfType<Game> ().levelGoal;
 	}

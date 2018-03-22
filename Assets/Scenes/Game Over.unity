@@ -2079,6 +2079,7 @@ GameObject:
   - component: {fileID: 2016295446}
   - component: {fileID: 2016295449}
   - component: {fileID: 2016295448}
+  - component: {fileID: 2016295450}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -2098,7 +2099,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vol: 50
-  usrstore: 
+  usertext: {fileID: 0}
+  personalScore: []
   usrname: {fileID: 0}
   confirmusr: {fileID: 0}
   buttonOptions: {fileID: 0}
@@ -2148,6 +2150,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b63ad57f727c7469722643b0b6a65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2016295450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2016295445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbcd37fed1549014598ef1bc536fce8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 1986093507}
+  levelText: {fileID: 1881386862}
+  linesText: {fileID: 611207708}
+  usrText: {fileID: 455322855}
+  goalText: {fileID: 0}
 --- !u!1 &2120995002
 GameObject:
   m_ObjectHideFlags: 0

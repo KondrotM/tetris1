@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DisplayHighscores : MonoBehaviour {
-
 	public Text[] highscoreText;
 	//Reference to the highscore class
 	Highscores highscoreManager;
@@ -24,7 +23,7 @@ public class DisplayHighscores : MonoBehaviour {
 		for (int i = 0; i < highscoreText.Length; i++) {
 			highscoreText [i].text = i + 1 + ". ";
 			if (highscoreList.Length > i) {
-				highscoreText[i].text += highscoreList[i].username + " - " + highscoreList[i].score;
+				highscoreText[i].text += highscoreList[i].username + " - " + highscoreList[i].score + " - " + highscoreList[i].level + " - " + highscoreList[i].lines;
 			}
 		}
 	}
@@ -37,6 +36,7 @@ public class DisplayHighscores : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
+
 
 	}
 }
