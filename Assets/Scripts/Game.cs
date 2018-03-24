@@ -15,29 +15,22 @@ public class Game : MonoBehaviour {
 	public int tempLines = 0;
 	static public int Score = 0;
 	public static Transform[,] grid = new Transform[gridWidth, gridHeight];
-
 	private GameObject previewTetrimino;
 	private GameObject nextTetrimino;
-
 	private bool gameStarted = false;
+	private Vector2 previewTetriminoPosition = new Vector2 (-5f, 15);
 
-	private Vector2 previewTetriminoPosition = new Vector2 (-6.5f, 15);
-
-	//	public static Transform[,] grid = new Transform[gridWidth, gridHeight];
-	// Use this for initialization
 	void Start () {
+		//spawns the first mino in the game, starting the loop which spawns more whenever once hits the ground.
 		SpawnNextTetrimino ();
-//		SpawnHold ();
 	}
 
-//	public void SpawnHold () {
-//			GameObject nextTetrimino = (GameObject)Instantiate (Resources.Load (GetRandomTetriminoHold (), typeof(GameObject)), new Vector2 (15.0f, 15.0f), Quaternion.identity);
-//		}
+
 
 
 	public string GetRandomTetriminoHold () {
-		int randomTetrimino = Random.Range (1, 8);
-		string randomTetriminoName = "Prefabs/Tetrimino_TH";
+
+		int randomTetrimino = Random.Range (1, 8);string randomTetriminoName = "Prefabs/Tetrimino_TH";
 		string nextMino = "base";
 		switch (randomTetrimino) {
 		case 1:
@@ -75,7 +68,6 @@ public class Game : MonoBehaviour {
 			break;
 
 		}
-		//asset
 		return randomTetriminoName;
 	}
 
@@ -86,20 +78,20 @@ public class Game : MonoBehaviour {
 		return minoName;
 	}
 
-
 	// Update is called once per frame
 	void Update () {
+		//checks if the level goal has been reached by clearing lines.
 		if (levelGoal <= 0) {
+			//makes the game harder
 			Game.level += 1;		
-//			FindObjectOfType<Game>().level += 1;
 			FindObjectOfType<Game>().fallSpeed = 1 * Mathf.Pow(.85f, Game.level);
-			//FindObjectOfType<Game>().fallSpeed = 0.2;
 			FindObjectOfType<Game>().levelGoal+= 5*level;
 			Debug.Log (FindObjectOfType<Game>().fallSpeed);
 		}
 	}
 
 	public bool CheckIsAboveGrid (Tetrimino tetrimino) {
+		//loops through all the rows seeing if there is any mino above the grid.
 		for (int x = 0; x < gridWidth; ++x) {
 			foreach (Transform mino in tetrimino.transform) {
 				Vector2 pos = Round (mino.position);
@@ -111,17 +103,8 @@ public class Game : MonoBehaviour {
 		return false;
 	}
 
-//	public void IncreaseSpeed() {
-//		if (linesCleared > level2 ) {
-//			level += 1;
-//			FindObjectOfType<Tetrimino>().fallSpeed = 1 * Mathf.Pow(0.85f, level);
-//			//FindObjectOfType<Tetrimino>().fallSpeed = 0.2;
-//			level2 += 5;
-//			Debug.Log (FindObjectOfType<Tetrimino>().fallSpeed);
-//		}
-//	}
-
 	public void AddScore() {
+		//increases score based on lines cleared.
 		if (linesCleared == (tempLines + 4)) { 
 			Score = (Score + 1200*level);
 			tempLines = linesCleared;
@@ -138,23 +121,25 @@ public class Game : MonoBehaviour {
 			Score = (Score + 40*level);
 			tempLines = linesCleared;
 		}
-			
+
 		tempLines = linesCleared;
 		Debug.Log (Score);
 	}
 
 	public bool IsFullRowAt (int y) {
+		//checks if all the squares in a row have been filled
 		for (int x = 0; x < gridWidth; ++x) {
 			if (grid[x,y] == null) {
 				return false;
 			}
 		}
-			linesCleared++;
-			levelGoal--;
-			Debug.Log (linesCleared);
-			return true;
+		//if the row is cleared, lines cleared are updated
+		linesCleared++;
+		levelGoal--;
+		Debug.Log (linesCleared);
+		return true;
 	}
-
+	//deletes the one square
 	public void DeleteMinoAt (int y){
 		for (int x = 0; x < gridWidth; ++x) {
 			Destroy (grid [x, y].gameObject);
@@ -163,6 +148,7 @@ public class Game : MonoBehaviour {
 	}
 
 	public void MoveRowDown (int y) {
+		//moves down a row if the one underneath it is empty
 		for (int x = 0; x < gridWidth; ++x) {
 			if (grid [x, y] != null) {
 				grid [x, y - 1] = grid [x, y];
@@ -174,14 +160,16 @@ public class Game : MonoBehaviour {
 	}
 
 	public void MoveAllRowDown (int y) {
+		//repeats MoveRowDown
 		for (int i = y; i < gridHeight; ++i) {
 			MoveRowDown(i);
-		
+
 		}
 	}
-		
+
 
 	public void DeleteRow () {
+		//repeats delete mino for an entire row
 		for (int y = 0; y < gridHeight; ++y) {
 			if (IsFullRowAt(y)) {
 				DeleteMinoAt(y);
@@ -192,47 +180,31 @@ public class Game : MonoBehaviour {
 		}
 	}
 
-	
-	
-//	public void UpdateGrid (Tetrimino tetrimino) {
-//		for (int y = 0; y < gridHeight; ++y) {
-//			for (int x = 0; x <gridWidth; ++x) {
-//				if (grid[x,y] != null) {
-//					if (grid[x,y].parent == tetrimino.transform) {
-//						grid[x,y] = null;
-//					}
-//				}
-//			}
-//		}
-//
-//		foreach (Transform mino in tetrimino.transform) {
-//			Vector2 pos = Round (mino.position);
-//			if (pos.y < gridHeight) {
-//				grid[(int)pos.x, (int)pos.y] = mino;
-//			}
-//		}
-//	}
-
-
-public void UpdateGrid (Tetrimino tetrimino) {
+	public void UpdateGrid (Tetrimino tetrimino) {
+		//goes through every column
 		for (int y = 0; y < gridHeight; ++y) {
+			//goes through every row
 			for (int x = 0; x < gridWidth; ++x) {
+				//checks if the grid from the previous frame has a mino on it
 				if (grid[x,y] != null){
+					//checks if the mino is still there this frame
 					if (grid [x, y].parent == tetrimino.transform) {
 						grid [x, y] = null;
 					}
 				}
 			}
 		}
-			foreach (Transform mino in tetrimino.transform) {
-				Vector2 pos = Round (mino.position);
-				if (pos.y < gridHeight) {
-					grid[(int)pos.x, (int)pos.y] = mino;
-				}
+		foreach (Transform mino in tetrimino.transform) {
+			//rounds the values so that they can snap to grid
+			Vector2 pos = Round (mino.position);
+			if (pos.y < gridHeight) {
+				grid[(int)pos.x, (int)pos.y] = mino;
 			}
+		}
 	}
 
 	public Transform GetTransformAtGridPosition (Vector2 pos) {
+		//
 		if (pos.y > gridHeight -1) {
 			return null;
 		} else {
@@ -257,11 +229,11 @@ public void UpdateGrid (Tetrimino tetrimino) {
 		}
 	}
 
-//	public void SpawnHold () {
-//		GameObject nextTetrimino = (GameObject)Instantiate (Resources.Load (GetRandomTetrimino (), typeof(GameObject)), new Vector2 (15.0f, 15.0f), Quaternion.identity);
-		//exp = GetComponent<Tetrimino>();
-		//Destroy (exp);
-//	}
+	//	public void SpawnHold () {
+	//		GameObject nextTetrimino = (GameObject)Instantiate (Resources.Load (GetRandomTetrimino (), typeof(GameObject)), new Vector2 (15.0f, 15.0f), Quaternion.identity);
+	//exp = GetComponent<Tetrimino>();
+	//Destroy (exp);
+	//	}
 
 	public bool CheckIsInsideGrid (Vector2 pos) {
 		return ((int)pos.x >= 0 && (int)pos.x < gridWidth && (int)pos.y >=0);
@@ -270,10 +242,12 @@ public void UpdateGrid (Tetrimino tetrimino) {
 
 	public Vector2 Round (Vector2 pos) {
 		return new Vector2 (Mathf.Round(pos.x), Mathf.Round(pos.y));
-			}
+	}
 
 	public string GetRandomTetrimino () {
+		//picks a random number between 1 and 8. This corresponds to the mino picked to spawn.
 		int randomTetrimino = Random.Range (1, 8);
+		//a case function which decides what the next mino will be. It goes through all the cases depending on the random number selected. 
 		string randomTetriminoName = "Prefabs/Tetrimino_T";
 		switch (randomTetrimino) {
 		case 1:
@@ -297,8 +271,8 @@ public void UpdateGrid (Tetrimino tetrimino) {
 		case 7:
 			randomTetriminoName = "Prefabs/Tetrimino_Z";
 			break;
-	
-	}
+
+		}
 		return randomTetriminoName;
 	}
 

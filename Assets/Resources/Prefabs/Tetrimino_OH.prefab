@@ -68,6 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4751819872229350}
   - component: {fileID: 114673039353206992}
+  - component: {fileID: 114292995466013316}
   m_Layer: 0
   m_Name: Tetrimino_OH
   m_TagString: Untagged
@@ -160,6 +161,19 @@ Transform:
   m_Father: {fileID: 4751819872229350}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114292995466013316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1625888413004076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 654c731ee6025de4cbdd56e1e90a32fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SwapTwice: 0
+  fall: 0
 --- !u!114 &114673039353206992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -171,7 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da88ab9230a7ff04d9cb1cda9ca06c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tetLoop: 1
 --- !u!212 &212023717946672578
 SpriteRenderer:
   m_ObjectHideFlags: 1
