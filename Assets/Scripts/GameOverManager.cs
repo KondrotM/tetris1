@@ -12,19 +12,19 @@ public class GameOverManager : MonoBehaviour {
 	static public string usrstore;
 	public InputField usrname;
 	public Text confirmusr;
-	//public Text volT = int.Parse(vol.text);
 	public Button buttonOptions;
 
 	void Awake() {
-//		DontDestroyOnLoad(this);
 	}
 
 	public void setUsername () {
+		//shows the user's username upon hitting the submit button to act as confirmation of the name being set.
 		usertext.text = usrstore;
 	}
 		
 
 	public void displayEndScores () {
+		//shows the user's statistics at the end of the game. I used a list because this made it easier to implement in the unity editor (click and drag one thing).
 		personalScore [0].text = Game.Score.ToString();
 		personalScore [1].text = Game.level.ToString ();
 		personalScore [2].text = Game.linesCleared.ToString();
@@ -33,8 +33,9 @@ public class GameOverManager : MonoBehaviour {
 	}
 
 	public void PlayAgain () {
-//		Highscores.AddNewHighscore("Guest", 11);
+		//loads the game on play again
 		Application.LoadLevel ("Tetris");
+		//sets the scores to the default so they don't carry over from previous sessions
 		Game.level = 1;
 		Game.Score = 0;
 		Game.linesCleared = 0;
@@ -52,14 +53,15 @@ public class GameOverManager : MonoBehaviour {
 
 	public void submit () {
 		Debug.Log (usrstore);
+		//checks if the user is trying to break the database by entering banned characters, and stops them from doing so
 		if (usrstore == "") {
 			usrstore = "Guest";
 		}
 		if (usrstore.Contains ("*")) {
 			usrstore = "Guest";
 		}
+		//adds the highscore to the datatable
 		Highscores.AddNewHighscore (usrstore, Game.Score, Game.level, Game.linesCleared);
-//		Highscores.AddNewHighscore (usrstore, FindObjectOfType<Game> ().Score);
 	}
 
 	public void getusrname () {
@@ -69,15 +71,18 @@ public class GameOverManager : MonoBehaviour {
 	}
 
 	void Start () {
+		//test for button functionality
 		Button btn = buttonOptions.GetComponent<Button>();
 		btn.onClick.AddListener(TaskOnclick);
 	}
 	
 	void TaskOnclick() {
+		//test for button functionality
 		Debug.Log ("You have clicked the button!");
 	}
 
 	public void loadMenu() {
+		//return to menu button
 		SceneManager.LoadScene ("Start_Screen");
 //		Application.Loadlevel ("Start_Screen");
 	}
@@ -87,6 +92,7 @@ public class GameOverManager : MonoBehaviour {
 	}
 
 	public void Options () {
+		//controls visibility of different sections of the start menu
 		gameObject.SetActive(false);
 
 	}

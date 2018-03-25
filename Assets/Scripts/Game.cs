@@ -18,65 +18,15 @@ public class Game : MonoBehaviour {
 	private GameObject previewTetrimino;
 	private GameObject nextTetrimino;
 	private bool gameStarted = false;
-	private Vector2 previewTetriminoPosition = new Vector2 (-5f, 15);
+	private Vector2 previewTetriminoPosition = new Vector2 (13.5f, 11);
 
 	void Start () {
 		//spawns the first mino in the game, starting the loop which spawns more whenever once hits the ground.
 		SpawnNextTetrimino ();
 	}
+		
 
 
-
-
-	public string GetRandomTetriminoHold () {
-
-		int randomTetrimino = Random.Range (1, 8);string randomTetriminoName = "Prefabs/Tetrimino_TH";
-		string nextMino = "base";
-		switch (randomTetrimino) {
-		case 1:
-			randomTetriminoName = "Prefabs/Tetrimino_TH";
-			nextMino = "Prefabs/Tetrimino_T";
-			Debug.Log (nextMino);
-			break;
-		case 2:
-			randomTetriminoName = "Prefabs/Tetrimino_IH";
-			nextMino = "Prefabs/Tetrimino_I";
-			Debug.Log (nextMino);
-			break;
-		case 3:
-			randomTetriminoName = "Prefabs/Tetrimino_OH";
-			nextMino = "Prefabs/Tetrimino_O";
-			Debug.Log (nextMino);
-			break;
-		case 4:
-			randomTetriminoName = "Prefabs/Tetrimino_JH";
-			nextMino = "Prefabs/Tetrimino_J";
-			Debug.Log (nextMino);
-			break;
-		case 5:
-			randomTetriminoName = "Prefabs/Tetrimino_LH";
-			nextMino = "Prefabs/Tetrimino_L";
-			Debug.Log (nextMino);
-			break;
-		case 6:
-			randomTetriminoName = "Prefabs/Tetrimino_SH";
-			nextMino = "Prefabs/Tetrimino_S";
-			break;
-		case 7:
-			randomTetriminoName = "Prefabs/Tetrimino_ZH";
-			nextMino = "Prefabs/Tetrimino_Z";
-			break;
-
-		}
-		return randomTetriminoName;
-	}
-
-	public string GetTetriminoFromHold () {
-		string minoName = GetRandomTetriminoHold ();
-		minoName = minoName.Remove (minoName.Length - 1);
-		Debug.Log (minoName);
-		return minoName;
-	}
 
 	// Update is called once per frame
 	void Update () {
@@ -204,7 +154,7 @@ public class Game : MonoBehaviour {
 	}
 
 	public Transform GetTransformAtGridPosition (Vector2 pos) {
-		//
+		//gives position of mino in regards to grid
 		if (pos.y > gridHeight -1) {
 			return null;
 		} else {
@@ -213,34 +163,38 @@ public class Game : MonoBehaviour {
 	}
 
 	public void SpawnNextTetrimino () {
+		//checks if we are currently in-game so that a mino is in play
 		if (!gameStarted) {
 			gameStarted = true;
+			//loads a new tetrimino from into the top of the grid randomly as the game has just started so it can't relate to previewtetrimino
 			nextTetrimino = (GameObject)Instantiate (Resources.Load (GetTetriminoFromHold(), typeof(GameObject)), new Vector2 (5.0f, 20.0f), Quaternion.identity);
+			//loads a new new random previewtetrimino
 			previewTetrimino = (GameObject)Instantiate (Resources.Load (GetTetriminoFromHold(), typeof(GameObject)), previewTetriminoPosition, Quaternion.identity);
+			//disables it so that it doesn't interfere with the game
 			previewTetrimino.GetComponent<Tetrimino>().enabled = false;
 
 		} else {
+			//sets the preview tetrimino to the top of the grid and activates it
 			previewTetrimino.transform.localPosition = new Vector2 (5.0f, 20.0f);
+			//activates the tetrimino
 			nextTetrimino = previewTetrimino;
 			nextTetrimino.GetComponent<Tetrimino> ().enabled = true;
+			//a new tetrimino is randomly generated as the preview and disables
 			previewTetrimino = (GameObject)Instantiate (Resources.Load (GetTetriminoFromHold(), typeof(GameObject)), previewTetriminoPosition, Quaternion.identity);
 			previewTetrimino.GetComponent<Tetrimino>().enabled = false;
 
 		}
 	}
-
-	//	public void SpawnHold () {
-	//		GameObject nextTetrimino = (GameObject)Instantiate (Resources.Load (GetRandomTetrimino (), typeof(GameObject)), new Vector2 (15.0f, 15.0f), Quaternion.identity);
-	//exp = GetComponent<Tetrimino>();
-	//Destroy (exp);
-	//	}
+		
 
 	public bool CheckIsInsideGrid (Vector2 pos) {
+		//simply checks if the co-ordinates specified are within the confines of the grid
 		return ((int)pos.x >= 0 && (int)pos.x < gridWidth && (int)pos.y >=0);
 
 	}
 
 	public Vector2 Round (Vector2 pos) {
+		//rounds the values of the blocks so that they snap nicely into the grid
 		return new Vector2 (Mathf.Round(pos.x), Mathf.Round(pos.y));
 	}
 
@@ -276,7 +230,60 @@ public class Game : MonoBehaviour {
 		return randomTetriminoName;
 	}
 
+	public string GetRandomTetriminoHold () {
+		//picks out a random tetrimino for the upcoming function you see on the left. 
+		//we need this because the other prefabs have the tetrimino.cs component and that would make them move.
+		int randomTetrimino = Random.Range (1, 8);string randomTetriminoName = "Prefabs/Tetrimino_TH";
+		string nextMino = "base";
+		switch (randomTetrimino) {
+		case 1:
+			randomTetriminoName = "Prefabs/Tetrimino_TH";
+			nextMino = "Prefabs/Tetrimino_T";
+			Debug.Log (nextMino);
+			break;
+		case 2:
+			randomTetriminoName = "Prefabs/Tetrimino_IH";
+			nextMino = "Prefabs/Tetrimino_I";
+			Debug.Log (nextMino);
+			break;
+		case 3:
+			randomTetriminoName = "Prefabs/Tetrimino_OH";
+			nextMino = "Prefabs/Tetrimino_O";
+			Debug.Log (nextMino);
+			break;
+		case 4:
+			randomTetriminoName = "Prefabs/Tetrimino_JH";
+			nextMino = "Prefabs/Tetrimino_J";
+			Debug.Log (nextMino);
+			break;
+		case 5:
+			randomTetriminoName = "Prefabs/Tetrimino_LH";
+			nextMino = "Prefabs/Tetrimino_L";
+			Debug.Log (nextMino);
+			break;
+		case 6:
+			randomTetriminoName = "Prefabs/Tetrimino_SH";
+			nextMino = "Prefabs/Tetrimino_S";
+			break;
+		case 7:
+			randomTetriminoName = "Prefabs/Tetrimino_ZH";
+			nextMino = "Prefabs/Tetrimino_Z";
+			break;
+
+		}
+		return randomTetriminoName;
+	}
+
+	public string GetTetriminoFromHold () {
+		//changes the prefab name to the normal mino, thereby making it controllable.
+		string minoName = GetRandomTetriminoHold ();
+		minoName = minoName.Remove (minoName.Length - 1);
+		Debug.Log (minoName);
+		return minoName;
+	}
+
 	public void GameOver () {
+		//loads the game over screen.
 		Application.LoadLevel ("Game Over");
 	}
 

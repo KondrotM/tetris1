@@ -7,13 +7,9 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour {
 	
 	public Text scoreText;
-
 	public Text levelText;
-
 	public Text linesText;
-
 	public Text usrText;
-
 	public Text goalText;
 
 	// Use this for initialization

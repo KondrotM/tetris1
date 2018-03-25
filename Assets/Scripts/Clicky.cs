@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿//testing out how buttons work in unity
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 

@@ -20,15 +20,7 @@ public class Highscores : MonoBehaviour {
 		instance = this;
 		highscoresDisplay = GetComponent<DisplayHighscores> ();
 	}
-
-
-	//	void Awake() {
-	//		AddNewHighscore ("Sebastian", 50);
-	//		AddNewHighscore ("Mary", 85);
-	//		AddNewHighscore ("Bob", 92);
-	//	
-	//		DownloadHighscores ();
-	//	}
+		
 
 	//static because we want to call it easier from other scripts
 	public static void AddNewHighscore(string username, int score, int level, int lines) {
